@@ -10,75 +10,73 @@ DROP TABLE IF EXISTS BRANCH_t;
 
 CREATE TABLE BRANCH_t
 (
-				Branch_Id		VARCHAR(4)	NOT NULL,
+		Branch_Id		VARCHAR(4)	NOT NULL,
         Branch_Street	VARCHAR(30),
         Branch_City		CHAR(20),
         Postal_Code		VARCHAR(7),
-        CONSTRAINT BRANCH_PK PRIMARY KEY (Branch_Id)
-        );
+        CONSTRAINT BRANCH_PK PRIMARY KEY (Branch_Id));
 
 CREATE TABLE STAFF_t
 	(
-					 Staff_Id		VARCHAR(6),
-				   first_Name	VARCHAR(30),
-		       last_Name		VARCHAR(20),
-	         position		VARCHAR(9),
-					 sex		CHAR(1),
-					 DOB		DATE,
-					 salary		INT(9),
-					 Branch_Id VARCHAR(5),
-	         CONSTRAINT STAFF_PK PRIMARY KEY (Staff_Id),
-					 CONSTRAINT STAFF_FK1 FOREIGN KEY (Branch_Id) REFERENCES BRANCH_t(Branch_Id)
-	        );
+		Staff_Id		VARCHAR(6),
+		first_Name		VARCHAR(30),
+		last_Name		VARCHAR(20),
+	    position		VARCHAR(9),
+		sex				CHAR(1),
+		DOB				DATE,
+		salary			INT(9),
+		Branch_Id 		VARCHAR(5),
+	    CONSTRAINT STAFF_PK PRIMARY KEY (Staff_Id),
+		CONSTRAINT STAFF_FK1 FOREIGN KEY (Branch_Id) REFERENCES BRANCH_t(Branch_Id));
 
-CREATE TABLE PROPERTY_t
-		(
-				Property_Id		VARCHAR(5)	NOT NULL,
-				street_Name		VARCHAR(25),
-				city_Name			CHAR(30),
-				postal_Code		INT(6),
-				house_Type		CHAR(9),
-				room_Numbers  INT(2),
-				owner_Number		VARCHAR(9),
-				Staff_id		VARCHAR(9),
-				Branch_Id VARCHAR(5),
-				CONSTRAINT PROPERTY_PK PRIMARY KEY (Property_Id),
-				CONSTRAINT PROPERTY_FK1 FOREIGN KEY (Branch_Id) REFERENCES BRANCH_t(Branch_Id),
-				CONSTRAINT PROPERTY_FK2 FOREIGN KEY (Staff_Id) REFERENCES STAFF_t(Staff_Id)
-			);
+		CREATE TABLE PROPERTY_t
+				(
+		Property_Id		VARCHAR(5)	NOT NULL,
+		street_Name		VARCHAR(25),
+		city_Name		CHAR(30),
+		postal_Code		INT(6),
+		house_Type		CHAR(9),
+		room_Numbers  	INT(2),
+		Max_Rent       	INT,
+		owner_Number	VARCHAR(9),
+		Staff_Id		VARCHAR(9),
+		Branch_Id 		VARCHAR(5),
+		CONSTRAINT PROPERTY_PK PRIMARY KEY (Property_Id),
+		CONSTRAINT PROPERTY_FK1 FOREIGN KEY (Branch_Id) REFERENCES BRANCH_t(Branch_Id),
+		CONSTRAINT PROPERTY_FK2 FOREIGN KEY (Staff_Id) REFERENCES STAFF_t(Staff_Id));
 /* Alyssa code finished */
 
 CREATE TABLE Client_t
-        	(Client_No      VARCHAR   NOT NULL,
-	      	F_Name          VARCHAR,
-            I_Name          VARCHAR,
+        	(Client_No      VARCHAR(30)   NOT NULL,
+	      	F_Name          VARCHAR(30),
+            I_Name          VARCHAR(30),
 			Tel_No			INT,
-			Pref_Type		VARCHAR,
+			Pref_Type		VARCHAR(30),
 			Max_Rent		INT,
 CONSTRAINT Client_PK PRIMARY KEY (Client_No));
 
 CREATE TABLE PrivateOwner_t
-            (Owner_No		VARCHAR NOT NULL,
-			F_Name			VARCHAR,
-			I_Name			VARCHAR,
-			Address			VARCHAR,
+            (Owner_No		VARCHAR(30) NOT NULL,
+			F_Name			VARCHAR(30),
+			I_Name			VARCHAR(30),
+			Address			VARCHAR(30),
 			Tel_No			INT,
 CONSTRAINT PrivateOwner_PK PRIMARY KEY (Owner_No));
 
 CREATE TABLE Viewing_t
-	      	(Client_No		VARCHAR NOT NULL,
-			Property_Id		VARCHAR,
-			View_Date		VARCHAR,
+	      	(Client_No		VARCHAR(30) NOT NULL,
+			Property_Id		VARCHAR(30),
+			View_Date		VARCHAR(30),
 			Comment			TEXT,
 CONSTRAINT Viewing_PK PRIMARY KEY (Client_No),
 CONSTRAINT Viewing_FK1 FOREIGN KEY (Property_Id) REFERENCES PROPERTY_t(Property_Id));
 
 CREATE TABLE Registration_t
-        	(Client_No		VARCHAR NOT NULL,
-			Branch_Id		VARCHAR,
-			Staff_No		VARCHAR,
-			Date_Joined		VARCHAR,
-CONSTRAINT Order_PK PRIMARY KEY (Client_No),
+			(Date_Joined	VARCHAR(30)  NOT NULL,
+        	Client_No		VARCHAR(30),
+			Branch_Id		VARCHAR(30),
+			Staff_Id		VARCHAR(30),
+CONSTRAINT Order_PK PRIMARY KEY (Date_Joined),
 CONSTRAINT Registration_FK1 FOREIGN KEY (Client_No) REFERENCES Client_t(Client_No),
 CONSTRAINT Registration_FK2 FOREIGN KEY (Branch_Id) REFERENCES BRANCH_t(Branch_Id),
 CONSTRAINT Registration_FK3 FOREIGN KEY (Staff_Id) REFERENCES STAFF_t(Staff_Id));
@@ -96,9 +94,9 @@ INSERT INTO STAFF_T VALUES
 ('SL21', 'JOHN', 'WHITE', 'MANAGER', 'M', '1-OCT-45', '30000', 'B005'),
 ('SG37', 'ANN', 'BEECH', 'ASSISTANT', 'F', '10-NOV-60', '12000', 'B003'),
 ('SG14', 'DAVID', 'FORD', 'SUPERVISOR', 'M', '24-MAR-58', '18000', 'B003'),
-('SA9', 'MARY', 'HOWE', 'ASSISTANT', 'F', '19-FEB-70' '9000', 'B007'),
-('SG5', 'SUSAN', 'BRAND', 'MANAGER', 'F', '3-JUN-40' '24000', 'B003'),
-('SL41', 'JULIE', 'LEE', 'ASSISTANT', 'F', '13-JUN-65' '9000', 'B005');
+('SA9', 'MARY', 'HOWE', 'ASSISTANT', 'F', '19-FEB-70', '9000', 'B007'),
+('SG5', 'SUSAN', 'BRAND', 'MANAGER', 'F', '3-JUN-40', '24000', 'B003'),
+('SL41', 'JULIE', 'LEE', 'ASSISTANT', 'F', '13-JUN-65', '9000', 'B005');
 
 INSERT INTO PROPERTY_T VALUES
 ('PA14', '16 HOLHEAD', 'ABERDEEN', 'AB7 5SU', 'HOUSE', '6', '650', 'CO46', 'SA9', 'B007'),
@@ -123,10 +121,10 @@ INSERT INTO PrivateOwner_t VALUES
 ('CO93', 'Tony', 'Shaw', '12 Park Pl, Glasglow G4 0QR', 01412257025);
 
 INSERT INTO Viewing_t VALUES
-('CR56', 'PA14', '24-May-04', 'too small');
-('CR76', 'PG4', '20-Apr-04', 'too remote');
-('CR56', 'PG4', '26-May-04', '');
-('CR62', 'PA14', '14-May-04', 'no dining room');
+('CR56', 'PA14', '24-May-04', 'too small'),
+('CR76', 'PG4', '20-Apr-04', 'too remote'),
+('CR56', 'PG4', '26-May-04', ''),
+('CR62', 'PA14', '14-May-04', 'no dining room'),
 ('CR56', 'PG36', '28-Apr-04', '');
 
 INSERT INTO Registration_t VALUES
