@@ -7,20 +7,20 @@ DROP TABLE IF EXISTS STAFF;
 DROP TABLE IF EXISTS BRANCH;
 
 CREATE TABLE BRANCH (
-	 	Branch_Id		VARCHAR(4)	NOT NULL,
+	 	Branch_Id		VARCHAR(30)	NOT NULL,
         Branch_Street	VARCHAR(30),
-        Branch_City		CHAR(20),
-        Postal_Code		VARCHAR(7),
+        Branch_City		VARCHAR(30),
+        Postal_Code		VARCHAR(30),
 CONSTRAINT BRANCH_PK PRIMARY KEY (Branch_Id));
 
 CREATE TABLE STAFF (
-		Staff_Id		VARCHAR(6),
+		Staff_Id		VARCHAR(30),
 		first_Name		VARCHAR(30),
-		last_Name		VARCHAR(20),
-		position		VARCHAR(9),
-		sex				CHAR(1),
+		last_Name		VARCHAR(30),
+		position		VARCHAR(30),
+		sex				VARCHAR(30),
 		DOB				DATE,
-		salary			INT(9),
+		salary			INT,
 		Branch_Id 		VARCHAR(5),
 CONSTRAINT STAFF_PK PRIMARY KEY (Staff_Id),
 CONSTRAINT STAFF_FK FOREIGN KEY (Branch_Id) REFERENCES BRANCH(Branch_Id));
@@ -34,18 +34,18 @@ CREATE TABLE PrivateOwner (
 CONSTRAINT PrivateOwner_PK PRIMARY KEY (Owner_No));
 
 CREATE TABLE PROPERTY (
-		Property_Id		VARCHAR(5)	NOT NULL,
-		street_Name		VARCHAR(25),
-		city_Name		CHAR(30),
-		postal_Code		INT(6),
-		house_Type		CHAR(9),
+		Property_Id		VARCHAR(30)	NOT NULL,
+		street_Name		VARCHAR(30),
+		city_Name		VARCHAR(30),
+		postal_Code		INT,
+		house_Type		VARCHAR(30),
 		room_Numbers  	INT,
 		Max_Rent       	INT,
-		Owner_No		VARCHAR(9),
-		Staff_Id		VARCHAR(9),
-		Branch_Id 		VARCHAR(5),
+		Owner_No		VARCHAR(30) NOT NULL,
+		Staff_Id		VARCHAR(30),
+		Branch_Id 		VARCHAR(30),
 CONSTRAINT PROPERTY_PK PRIMARY KEY (Property_Id),
--- CONSTRAINT PROPERTY_Owner_No_FK FOREIGN KEY (Owner_No) REFERENCES PrivateOwner(Owner_No),
+CONSTRAINT PROPERTY_Owner_FK FOREIGN KEY (Owner_No) REFERENCES PrivateOwner(Owner_No), -- if code does not work, comment this line out. 
 CONSTRAINT PROPERTY_Staff_FK FOREIGN KEY (Staff_Id) REFERENCES STAFF(Staff_Id),
 CONSTRAINT PROPERTY_Branch_FK FOREIGN KEY (Branch_Id) REFERENCES BRANCH(Branch_Id));
 
@@ -62,7 +62,7 @@ CONSTRAINT Client_PK PRIMARY KEY (Client_No));
 CREATE TABLE Viewing (
 		Client_No		VARCHAR(20) NOT NULL,
 		Property_Id		VARCHAR(30),
-		View_Date		VARCHAR(30),
+		View_Date		DATE,
 		Comment			TEXT,
 CONSTRAINT Viewing_PK PRIMARY KEY (Client_No, Property_Id),
 CONSTRAINT Viewing_Client_FK FOREIGN KEY (Client_No) REFERENCES Client(Client_No),
